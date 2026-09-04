@@ -89,7 +89,29 @@ void    render_scene(t_scene const *scene, t_camera const *cam)
                 SPR_releaseSprite(sprites[i]);
             sprites[i] = SPR_addSprite(DEFS[sid][proj.tier],
                 proj.screen_x, proj.screen_y, TILE_ATTR(PAL1, TRUE, FALSE, FALSE));
-            cur_tier[i] = proj.tier;
+            /*
+            ** Real bug, found by an actual reader: SPR_addSprite can
+            ** return NULL from VRAM fragmentation alone, even with
+            ** free space -- and constantly releasing/re-adding
+            ** different-sized sprites as tiers change is exactly what
+            ** fragments it. The old code set cur_tier[i] regardless,
+            ** so a failed allocation left sprites[i] NULL while
+            ** cur_tier[i] said "up to date" -- next frame's
+            ** SPR_setPosition(NULL, ...) corrupted the sprite engine
+            ** for a frame (a visible flash) before the billboard just
+            ** vanished.
+            **
+            ** SGDK's own header steers you toward SPR_addSpriteSafe
+            ** for exactly this failure mode -- tried it first, and it
+            ** returned NULL on the very first sprite of a fresh boot,
+            ** nothing else on screen to fragment against. Verified by
+            ** swapping only that one call and nothing else: sprites
+            ** stopped appearing at all. Staying on plain SPR_addSprite,
+            ** which does work, and only recording the tier on actual
+            ** success -- so a failed allocation retries next frame
+            ** instead of calling SPR_setPosition on a NULL sprite.
+            */
+            cur_tier[i] = sprites[i] ? proj.tier : -1;
         }
         else
         {
