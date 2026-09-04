@@ -23,8 +23,18 @@ SIZES = [8, 16, 24, 32]
 # One shared palette across every sprite -- tree and rock alike -- so any
 # ONE SpriteDefinition's bundled palette is correct for all eight; only
 # one PAL_setPalette() call is needed at startup, not one per subject.
-# index 0 transparent, 1 trunk, 2 leaves, 3 rock.
-PALETTE = [0, 0, 0, 0x5a, 0x3a, 0x1e, 0x2e, 0x8b, 0x57, 0x7a, 0x7a, 0x7a]
+# index 0 transparent, 1 trunk, 2 leaves, 3 rock, 4 sky, 5 ground -- the
+# last two are never drawn into these sprite images (render.c's own
+# background tiles reference them directly) but have to live in this
+# same palette, since only one PAL1 load happens all chapter.
+PALETTE = [
+    0, 0, 0,
+    0x5a, 0x3a, 0x1e,
+    0x2e, 0x8b, 0x57,
+    0x7a, 0x7a, 0x7a,
+    0x5c, 0x9d, 0xe8,
+    0x4a, 0x4a, 0x4a,
+]
 
 def indexed(size):
     img = Image.new("P", (size, size))

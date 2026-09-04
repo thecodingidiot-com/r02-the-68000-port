@@ -17,6 +17,37 @@ static const SpriteDefinition *DEFS[2][SPRITE_TIERS] =
 static Sprite  *sprites[MAX_BILLBOARDS];
 static s8       cur_tier[MAX_BILLBOARDS];
 
+/* A solid-colour tile is just the same 4-bit palette index repeated
+** for all 64 pixels -- 8 identical bytes per row, so the same byte
+** value written 4 times makes one row regardless of CPU endianness.
+** No image file, no rescomp, no VRAM budget beyond two tiles. */
+static const u32 SKY_TILE[8] =
+{
+    0x44444444, 0x44444444, 0x44444444, 0x44444444,
+    0x44444444, 0x44444444, 0x44444444, 0x44444444,
+};
+
+static const u32 GROUND_TILE[8] =
+{
+    0x55555555, 0x55555555, 0x55555555, 0x55555555,
+    0x55555555, 0x55555555, 0x55555555, 0x55555555,
+};
+
+void    render_backdrop(void)
+{
+    u16 horizon_row;
+
+    horizon_row = HORIZON_Y / 8;
+    VDP_loadTileData(SKY_TILE, TILE_USERINDEX, 1, DMA);
+    VDP_loadTileData(GROUND_TILE, TILE_USERINDEX + 1, 1, DMA);
+    VDP_fillTileMapRect(BG_A,
+        TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, TILE_USERINDEX),
+        0, 0, WINDOW_W / 8, horizon_row);
+    VDP_fillTileMapRect(BG_A,
+        TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, TILE_USERINDEX + 1),
+        0, horizon_row, WINDOW_W / 8, (WINDOW_H / 8) - horizon_row);
+}
+
 void    render_init(t_scene const *scene)
 {
     int i;
