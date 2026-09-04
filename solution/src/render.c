@@ -53,8 +53,7 @@ void    render_init(t_scene const *scene)
     int i;
 
     i = 0;
-    while (i < scene->count)
-    {
+    while (i < scene->count) {
         sprites[i] = NULL;
         cur_tier[i] = -1;
         i++;
@@ -68,14 +67,11 @@ void    render_scene(t_scene const *scene, t_camera const *cam)
     int             sid;
 
     i = 0;
-    while (i < scene->count)
-    {
+    while (i < scene->count) {
         sid = scene->items[i].sprite_id;
         proj = scaler_project(cam, scene->items[i].pos);
-        if (!proj.visible)
-        {
-            if (sprites[i])
-            {
+        if (!proj.visible) {
+            if (sprites[i]) {
                 SPR_releaseSprite(sprites[i]);
                 sprites[i] = NULL;
                 cur_tier[i] = -1;
@@ -83,8 +79,7 @@ void    render_scene(t_scene const *scene, t_camera const *cam)
             i++;
             continue;
         }
-        if (proj.tier != cur_tier[i])
-        {
+        if (proj.tier != cur_tier[i]) {
             if (sprites[i])
                 SPR_releaseSprite(sprites[i]);
             /*
@@ -128,9 +123,7 @@ void    render_scene(t_scene const *scene, t_camera const *cam)
             cur_tier[i] = sprites[i] ? proj.tier : -1;
         }
         else
-        {
             SPR_setPosition(sprites[i], proj.screen_x, proj.screen_y);
-        }
         i++;
     }
     SPR_update();
