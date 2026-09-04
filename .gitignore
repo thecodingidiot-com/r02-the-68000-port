@@ -1,0 +1,6 @@
+out/
+solution/src/boot/
+solution/res/image/
+solution/res/*.h
+solution/res/*.rs
+solution/res/*.d
