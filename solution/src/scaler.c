@@ -23,13 +23,11 @@ static int  nearest_tier(int ideal)
     if (best_diff < 0)
         best_diff = -best_diff;
     i = 1;
-    while (i < SPRITE_TIERS)
-    {
+    while (i < SPRITE_TIERS) {
         diff = ideal - TIER_SIZES[i];
         if (diff < 0)
             diff = -diff;
-        if (diff < best_diff)
-        {
+        if (diff < best_diff) {
             best_diff = diff;
             best = i;
         }
@@ -47,8 +45,7 @@ t_projection    scaler_project(t_camera const *cam, t_vec2 world_pos)
     rel = vec2_sub(world_pos, cam->pos);
     proj.depth = vec2_dot(rel, cam->forward);
     proj.side = vec2_dot(rel, cam->right);
-    if (proj.depth < NEAR_PLANE)
-    {
+    if (proj.depth < NEAR_PLANE) {
         proj.visible = 0;
         return (proj);
     }
