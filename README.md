@@ -47,6 +47,14 @@ version could take for granted rebuilt from scratch:
   one the depth math lands closest to at runtime.
 - **No filesystem.** The road's billboards are a `const` C array
   compiled straight into the ROM, not a text file read at runtime.
+- **Steering shifts world position directly** (`cam->right`, never
+  rotated), the same model
+  [r01](https://github.com/thecodingidiot-com/r01-the-scaler)'s own
+  correction settled on — carried straight over rather than
+  re-derived, since none of Hang-On, Out Run, or Space Harrier ever
+  rotate the camera to steer. `camera_turn()` is untouched and still
+  real; `main.c` just doesn't call it any more. `MIN_SIDE`/`MAX_SIDE`
+  fence the play area, same range as r01.
 
 Source is split by concern, one file per module:
 
@@ -81,7 +89,8 @@ blastem out/rom.bin
 ```
 
 Controls: D-pad Up/Down to drive forward/backward, Left/Right to
-turn.
+steer (fenced, same `MIN_SIDE`/`MAX_SIDE` range
+[r01](https://github.com/thecodingidiot-com/r01-the-scaler) uses).
 
 `gen_assets.sh` needs Python3 + Pillow:
 
