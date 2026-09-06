@@ -1,5 +1,5 @@
 #!/bin/bash
-# r02 — The Scaler on the Mega Drive / test.sh
+# r02 — The 68000 Port / test.sh
 #
 # Builds the ROM with the real m68k-elf/SGDK toolchain, checks the
 # projection math on the host (vec2.c and scaler.c, recompiled as-is
@@ -47,7 +47,7 @@ hr() {
 
 banner() {
     hr
-    echo "  r02 — The Scaler on the Mega Drive / test.sh"
+    echo "  r02 — The 68000 Port / test.sh"
     hr
 }
 
