@@ -1,6 +1,6 @@
-# r02-the-scaler
+# r02-the-68000-port
 
-Companion repository for **r02 — The Scaler on the Mega Drive** at
+Companion repository for **r02 — The 68000 Port** at
 [thecodingidiot.com](https://thecodingidiot.com) — r01's scaler,
 cross-compiled for a real Sega Mega Drive.
 
@@ -14,7 +14,7 @@ step by step, then run the tester.
 Clone this repository:
 
 ```bash
-git clone https://github.com/thecodingidiot-com/r02-the-scaler.git r02-practice
+git clone https://github.com/thecodingidiot-com/r02-the-68000-port.git r02-practice
 cd r02-practice/solution
 bash gen_assets.sh
 GENDEV=/opt/gendev make
